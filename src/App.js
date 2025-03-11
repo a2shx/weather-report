@@ -2,6 +2,9 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import GeocodingFetch from './data/GeocodingFetch';
 import WeatherFetch from './data/WeatherFetch';
+import LangButton from './component/LangButton';
+import InputField from './component/InputField';
+import CitiesData from './data/CityName';
 
 function App() {
   const [geoUrlApi, setGeoUrlApi] = useState({
@@ -20,7 +23,7 @@ function App() {
   const [lang, setLang] = useState('en');
   
   const handleCityChange = (e) => {
-    setGeoUrlApi({...geoUrlApi, city: e.target.calue})};
+    setGeoUrlApi({...geoUrlApi, city: e.target.value})};
 
   const handleLangChange = (e) => {
     setLang(lang === 'en'? 'th':'en');
@@ -45,7 +48,6 @@ function App() {
     fetchLocation();
   },[geoUrlApi])
   
-  console.log(weatherUrlApi.lat, weatherUrlApi.lon);
 
   useEffect(() => {
     const fetchWeather = async() => {
@@ -63,7 +65,8 @@ function App() {
   
     return(
     <div>
-      
+      <LangButton lang={lang} handleLangChange={handleLangChange}/>
+      <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} handleCityChange={handleCityChange}/>
     </div>
     )
 }
