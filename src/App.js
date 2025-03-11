@@ -17,6 +17,14 @@ function App() {
     key: '40d2dd25c2e79b02b2adabea3ffcf797',
     units: 'metric'
   });
+  const [lang, setLang] = useState('en');
+  
+  const handleCityChange = (e) => {
+    setGeoUrlApi({...geoUrlApi, city: e.target.calue})};
+
+  const handleLangChange = (e) => {
+    setLang(lang === 'en'? 'th':'en');
+  }
 
   useEffect(() => {
     const fetchLocation = async() => {
@@ -55,7 +63,7 @@ function App() {
   
     return(
     <div>
- 
+      
     </div>
     )
 }
