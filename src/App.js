@@ -82,10 +82,12 @@ function App() {
 
   
     return(
-    <div>
-      <LangButton lang={lang} handleLangChange={handleLangChange}/>
-      <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} handleCityChange={handleCityChange}/>
-      <DisplayData weatherData={weatherData} lang={lang}/>
+    <div className='main-container'>
+      <section>
+        <LangButton lang={lang} handleLangChange={handleLangChange}/>
+        <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} handleCityChange={handleCityChange}/>
+        <DisplayData weatherData={weatherData} lang={lang}/>
+      </section>
     </div>
     )
 }
