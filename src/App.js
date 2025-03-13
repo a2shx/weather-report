@@ -5,6 +5,7 @@ import WeatherFetch from './data/WeatherFetch';
 import LangButton from './component/LangButton';
 import InputField from './component/InputField';
 import CitiesData from './data/CityName';
+import DisplayData from './component/DisplayField';
 
 function App() {
   const [geoUrlApi, setGeoUrlApi] = useState({
@@ -12,29 +13,45 @@ function App() {
     country: 'TH',
     limit: 1,
     state: '',
-    key: '40d2dd25c2e79b02b2adabea3ffcf797'
+    key: '40d2dd25c2e79b02b2adabea3ffcf797',
+    language: 'en'
 });
   const [weatherUrlApi, setWeatherUrlApi] = useState({
     lat: null, 
     lon: null, 
     key: '40d2dd25c2e79b02b2adabea3ffcf797',
-    units: 'metric'
+    units: 'metric',
   });
+  const [weatherData, setWeatherData] = useState(null);
   const [lang, setLang] = useState('en');
   
   const handleCityChange = (e) => {
     setGeoUrlApi({...geoUrlApi, city: e.target.value})};
 
-  const handleLangChange = (e) => {
-    setLang(lang === 'en'? 'th':'en');
+  const handleLangChange = () => {
+    setLang(lang === 'en' ? 'th':'en');
+    setWeatherUrlApi({...weatherUrlApi, language: lang === 'en' ? 'th':'en'});
   }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        setWeatherUrlApi({lat: lat, lon: lon, key: geoUrlApi.key, units: 'metric', language: lang});
+      },
+      () => {
+        console.error('Location access denied.');
+      }
+    );
+  },[])
 
   useEffect(() => {
     const fetchLocation = async() => {
       try{
         const locationData = await GeocodingFetch(geoUrlApi);
         if (locationData && locationData.length >0){
-          setWeatherUrlApi({lat: locationData[0].lat, lon: locationData[0].lon, key: geoUrlApi.key, units: 'metric'});
+          setWeatherUrlApi({lat: locationData[0].lat, lon: locationData[0].lon, key: geoUrlApi.key, units: 'metric', language: lang});
           console.log(locationData);
         }
         else{
@@ -54,6 +71,7 @@ function App() {
         const weatherData = await WeatherFetch(weatherUrlApi);
         if (weatherUrlApi.lat && weatherUrlApi.lon) {
             console.log(weatherData);
+            setWeatherData(weatherData);
         }
       }
       if(weatherUrlApi.lat && weatherUrlApi.lon){
@@ -67,6 +85,7 @@ function App() {
     <div>
       <LangButton lang={lang} handleLangChange={handleLangChange}/>
       <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} handleCityChange={handleCityChange}/>
+      <DisplayData weatherData={weatherData} lang={lang}/>
     </div>
     )
 }
