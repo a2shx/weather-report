@@ -1,6 +1,11 @@
 body {
-  @apply bg-gradient-to-t from-purple-900 to-gray-900 h-screen;
+  background-size: cover;
+  background-repeat: no-repeat;
+  @apply bg-gradient-to-t from-pink-300 to-indigo-800 h-screen content-center;
+  
 }
 .main-container{
-  @apply flex flex-col p-8;
+  @apply p-8 bg-indigo-900 bg-opacity-20 rounded-xl max-w-screen-sm md:max-w-screen-xl mx-auto relative z-10;
+  @apply  text-white flex flex-col items-center justify-center h-full;
+  max-height: 100%;
 }

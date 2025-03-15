@@ -6,6 +6,7 @@ import LangButton from './component/LangButton';
 import InputField from './component/InputField';
 import CitiesData from './data/CityName';
 import DisplayData from './component/DisplayField';
+import getWeatherAssets from './component/WeatherAssets';
 
 function App() {
   const [geoUrlApi, setGeoUrlApi] = useState({
@@ -22,8 +23,10 @@ function App() {
     key: '40d2dd25c2e79b02b2adabea3ffcf797',
     units: 'metric',
   });
+  const [geoData, setGeoData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [lang, setLang] = useState('en');
+  const [videoBG, setVideoBG] = useState('/weatherBG/Purple-hour.mp4');
   
   const handleLangChange = () => {
     setLang(lang === 'en' ? 'th':'en');
@@ -75,14 +78,37 @@ function App() {
       };
     },[weatherUrlApi])
 
-  
+    useEffect(() => {
+      if (weatherData) {
+        const nowHour = new Date().getHours();
+        const { video } = getWeatherAssets(weatherData.weather[0].main, nowHour);
+        setVideoBG(video);
+      }
+    }, [weatherData]);
+
+    console.log(videoBG)
+
     return(
-    <div className='main-container'>
-      <section>
-        <LangButton lang={lang} handleLangChange={handleLangChange}/>
+      <div className="relative w-full h-screen overflow-hidden">
+      {/* Background Video */}
+      <video
+        key={videoBG}
+        autoPlay
+        muted
+        loop
+        className="absolute top-0 left-0 w-full h-full object-cover"
+      >
+        <source src={videoBG} type="video/mp4" />
+      </video>
+    
+      {/* Content (above the video) */}
+      <div className="main-container">
+        <div className="absolute top-4 right-4"> 
+          <LangButton lang={lang} handleLangChange={handleLangChange} />
+        </div>
         <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} geoUrlApi={geoUrlApi} setCity={setGeoUrlApi}/>
         <DisplayData weatherData={weatherData} lang={lang}/>
-      </section>
+      </div>
     </div>
     )
 }

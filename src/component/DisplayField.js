@@ -1,29 +1,20 @@
 import { useEffect, useState } from 'react';
 import './DisplayField.css';
+import getWeatherAssets from './WeatherAssets';
 function DisplayData(props){
-    const { weatherData, lang } = props;
-    const [weatherImg, setWeatherImg] = useState(null);
+    const { weatherData, lang} = props;
+    const [ weatherImg, setWeatherImg ] = useState(null);
     useEffect(() => {
             if (weatherData) {
-                    const nowHour = new Date().getHours();
-                    const dayTime = nowHour >= 6 && nowHour < 18;
-                
-                    switch (weatherData.weather[0].main) {
-                        case 'Clear': setWeatherImg(dayTime ? '/weather-icon/sun.png' : '/weather-icon/moon.png'); break;
-                        case 'Clouds': setWeatherImg(dayTime ? '/weather-icon/cloud-sun.png' : '/weather-icon/cloud-moon.png'); break;
-                        case 'Rain': setWeatherImg('/weather-icon/rain.png'); break;
-                        case 'Drizzle': setWeatherImg('/weather-icon/rain.png'); break;
-                        case 'Thunderstorm': setWeatherImg('/weather-icon/rain-storm'); break;
-                        case 'Mist': setWeatherImg('/weather-icon/mist.png'); break;
-                        case 'Haze': setWeatherImg('/weather-icon/mist.png'); break;
-                        case 'Dust': setWeatherImg('/weather-icon/mist.png'); break;
-                    };
+                    const nowHour = new Date().getHours();                
+                    const {img} = getWeatherAssets(weatherData.weather[0].main, nowHour);
+                    setWeatherImg(img)
                 };
     },[weatherData]);
     
 
     if (!weatherData) {
-        return <div>Loading...</div>; // You can show a loading spinner or message here
+        return <div className='block w-full text-white text-4xl text-center mt-20'>Loading...</div>; // You can show a loading spinner or message here
       }
 
 
@@ -32,22 +23,31 @@ function DisplayData(props){
     const formattedSunriseEn = sunrise.toLocaleTimeString(lang ,{hour: '2-digit', minute: '2-digit', hour12:true});
     const formattedSunriseTh = sunrise.toLocaleTimeString(lang ,{hour: '2-digit', minute: '2-digit', hour12:false});
     return(
-        <div className="main-display-container">
-            <div className="text-white justify-items-center mb-5">
-                <img className='max-w-xs' src={weatherImg} alt={weatherData.weather[0].description} />
-                <h2 className='text-5xl mb-5 font-semibold'>{weatherData.main.temp}  ํC</h2>
-                <h3>{lang === 'en' ? 'Feels like': 'รู้สึกเหมือน'} {weatherData.main.feels_like} ํC</h3>
-                <h3>{lang === 'en' ? 'Min': 'ต่ำสุด'} {weatherData.main.temp_min}  ํC {lang === 'en' ? 'Max': 'สูงสุด'} {weatherData.main.temp_max}  ํC</h3> 
+        <div className="main-display-container grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="temp-section">
+                <h3 className='text-xl'>{weatherData.name}</h3>
+                <img className='weather-img' src={weatherImg} alt={weatherData.weather[0].description} />
+                <h2 className='temp'>{weatherData.main.temp}  ํC</h2>
+                <h3 className='temp-des'>{lang === 'en' ? 'Feels like': 'รู้สึกเหมือน'} {weatherData.main.feels_like} ํC</h3>
+                <h3 className='temp-des'>{lang === 'en' ? 'Min: ': 'ต่ำสุด: '} {weatherData.main.temp_min}  ํC        {lang === 'en' ? 'Max: ': 'สูงสุด: '} {weatherData.main.temp_max}  ํC</h3> 
             </div>
-            <div className="display-container">
-                <h3>{weatherData.weather[0].description}</h3>
-                <h3>{lang === 'en' ? 'Cloud Amount': 'ปริมาณเมฆ'} {weatherData.clouds.all}%</h3>
-            </div>
-            <div className="display-container">
-            <h3>{lang === 'en' ? 'Wind Speed': 'ความเร็วลม'} {weatherData.wind.speed}</h3>
-            <h3>{lang === 'en' ? 'Degree': 'องศา'} {weatherData.wind.deg} ํ</h3>
-            <h3>{lang === 'en' ? 'Sun at its peak time ': 'เวลาที่ดวงอาทิตย์ขึ้นสูงสุด '} 
-                {lang === 'en' ? formattedSunriseEn: formattedSunriseTh}</h3>
+            <div className='grid-container grid grid-cols-2 grid-rows-2 gap-4 md-col2'>
+                <div className="display-container col-span-1">
+                    <img className='des-img' src='/weather-icon/cloudy.png' alt="cloud amount" />
+                    <img className='des-img' src='/weather-icon/humidity.png' alt="humidity" />
+                    <h3>{lang === 'en' ? 'Humidity: ': 'ความชื้น: '} {weatherData.main.humidity} %</h3>
+                    <h3>{lang === 'en' ? 'Cloud Amount: ': 'ปริมาณเมฆ: '} {weatherData.clouds.all}%</h3>
+                </div>
+                <div className="display-container col-span-1">
+                    <img className='des-img' src='/weather-icon/wind.png' alt="cloud amount" />
+                    <h3>{lang === 'en' ? 'Wind Speed': 'ความเร็วลม'} {weatherData.wind.speed}</h3>
+                    <h3>{lang === 'en' ? 'Degree': 'องศา'} {weatherData.wind.deg} ํ</h3>
+                </div>
+                <div className='display-container col-span-2'>
+                    <img className='des-img' src='/weather-icon/sun.png' alt="cloud amount" />
+                    <h3>{lang === 'en' ? 'Sun at its peak time ': 'เวลาที่ดวงอาทิตย์ขึ้นสูงสุด '} 
+                    {lang === 'en' ? formattedSunriseEn: formattedSunriseTh}</h3>
+                </div>
             </div>
         </div>
         )

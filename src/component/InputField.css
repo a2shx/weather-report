@@ -1,0 +1,14 @@
+.option-bar{
+    @apply text-white text-2xl mb-5 block w-full text-center bg-black bg-opacity-40 rounded-md p-2 cursor-pointer;
+}
+.ul-section{
+    @apply absolute left-0 w-full bg-gray-900 bg-opacity-90 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto;
+}
+.option-list{
+    @apply text-lg text-white px-4 py-2 hover:bg-gray-700 cursor-pointer transition;
+}
+@media (max-width: 540px){
+    .option-bar{
+        @apply text-xl
+    }
+}
