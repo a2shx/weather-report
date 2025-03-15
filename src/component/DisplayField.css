@@ -6,5 +6,9 @@ body{
     font-family: 'Roboto Condensed', sans-serif;
 }
 .display-container{
-    @apply border-2 rounded;
+    @apply p-4 mb-4 justify-items-center rounded-lg text-white;
+    background-color: rgba(108, 35, 150, 0.76);
 }
+
+
+

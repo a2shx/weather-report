@@ -25,9 +25,6 @@ function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [lang, setLang] = useState('en');
   
-  const handleCityChange = (e) => {
-    setGeoUrlApi({...geoUrlApi, city: e.target.value})};
-
   const handleLangChange = () => {
     setLang(lang === 'en' ? 'th':'en');
     setWeatherUrlApi({...weatherUrlApi, language: lang === 'en' ? 'th':'en'});
@@ -65,7 +62,6 @@ function App() {
     fetchLocation();
   },[geoUrlApi])
   
-
   useEffect(() => {
     const fetchWeather = async() => {
         const weatherData = await WeatherFetch(weatherUrlApi);
@@ -79,13 +75,12 @@ function App() {
       };
     },[weatherUrlApi])
 
-
   
     return(
     <div className='main-container'>
       <section>
         <LangButton lang={lang} handleLangChange={handleLangChange}/>
-        <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} handleCityChange={handleCityChange}/>
+        <InputField cityData={CitiesData} lang={lang} city={geoUrlApi.city} geoUrlApi={geoUrlApi} setCity={setGeoUrlApi}/>
         <DisplayData weatherData={weatherData} lang={lang}/>
       </section>
     </div>

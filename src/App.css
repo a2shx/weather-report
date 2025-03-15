@@ -1,4 +1,6 @@
-
+body {
+  @apply bg-gradient-to-t from-purple-900 to-gray-900 h-screen;
+}
 .main-container{
   @apply flex flex-col p-8;
 }
