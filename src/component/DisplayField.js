@@ -28,6 +28,7 @@ function DisplayData(props){
                 <h3 className='text-xl'>{weatherData.name}</h3>
                 <img className='weather-img' src={weatherImg} alt={weatherData.weather[0].description} />
                 <h2 className='temp'>{weatherData.main.temp}  ํC</h2>
+                <h3 className='text-xl'>{weatherData.weather[0].description}</h3>
                 <h3 className='temp-des'>{lang === 'en' ? 'Feels like': 'รู้สึกเหมือน'} {weatherData.main.feels_like} ํC</h3>
                 <h3 className='temp-des'>{lang === 'en' ? 'Min: ': 'ต่ำสุด: '} {weatherData.main.temp_min}  ํC        {lang === 'en' ? 'Max: ': 'สูงสุด: '} {weatherData.main.temp_max}  ํC</h3> 
             </div>
