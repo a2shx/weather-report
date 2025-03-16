@@ -8,7 +8,7 @@ const getWeatherAssets = (weather, hour) => {
         },
         Clouds: {
             img: dayTime ? '/weather-icon/cloud-sun.png' : '/weather-icon/cloud-moon.png',
-            video: dayTime ? '/WeatherBG/Cloud.mp4' : '/WeatherBG/Cloud-N.mp4'
+            video: dayTime ? '/WeatherBG/Cloud.mp4' : '/WeatherBG/Purple-hour.mp4'
         },
         Rain: {
             img: '/weather-icon/rain.png',
