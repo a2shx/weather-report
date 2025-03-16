@@ -1,6 +1,6 @@
 const GeocodingFetch = async(geoUrlApi) => {
     const {city, state, country, limit, key} = geoUrlApi;
-    const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&limit=${limit}&appid=${key}`;
+    const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},${country}&limit=${limit}&appid=${key}`;
     try{
         const response = await fetch(url);
         const data = await response.json();
