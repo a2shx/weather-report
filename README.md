@@ -17,4 +17,4 @@ Vercel for deployment
 ![Weather App Screenshot](assets/weather-screenshot.png)
 
 🌍 Live Demo
-https://weather-report-nine-pearl.vercel.app/
+[Check it out on verlcel!](https://weather-report-f37ulczlt-a2shxs-projects.vercel.app/)
