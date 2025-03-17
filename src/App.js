@@ -14,13 +14,13 @@ function App() {
     country: 'TH',
     limit: 1,
     state: '',
-    key: '40d2dd25c2e79b02b2adabea3ffcf797',
+    key: process.env.REACT_APP_WEATHER_API_KEY,
     language: 'en'
 });
   const [weatherUrlApi, setWeatherUrlApi] = useState({
     lat: null, 
     lon: null, 
-    key: '40d2dd25c2e79b02b2adabea3ffcf797',
+    key: process.env.REACT_APP_WEATHER_API_KEY,
     units: 'metric',
   });
   const [geoData, setGeoData] = useState(null);
